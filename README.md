@@ -72,7 +72,7 @@ vnem Init
 vnem dbconfig
 ``
 
-* Create Module  ,modulename : 模块名称，必须。
+* Create Module,modulename(requisite)。
 ``
 vnem create modulename
 ``
