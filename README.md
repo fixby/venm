@@ -1,5 +1,5 @@
 ## VNEM
-> Full stack development architecture, front-end: Vuejs2.0, Server: Nodejs + Express, Database: Mongod
+> Full stack development architecture, front-end: Vuejs2.0, Server: Nodejs + Express, Database: Mongodb
 
 
 ## Feauter
