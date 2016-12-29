@@ -1,5 +1,7 @@
 /**
  * 随机生成N多文章
+ * 
+ * 需要手动安装 slug包，安装时间较长
  */
 const express = require('express');
 const loremipsum = require('lorem-ipsum');
