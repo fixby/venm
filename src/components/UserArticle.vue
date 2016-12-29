@@ -60,7 +60,7 @@ export default{
         //显示文章
         getArticle(id){
             this.$http.get('/article/'+ id).then(function(res){
-                this.article=eval('('+res.body+')');
+                this.article=res.body.data;               
                 this.article.created=moment(this.article.created).format('YYYY-MM-DD HH:MM:SS');
                 for(let i=0; i<this.article.comments.length; i++){
                     this.article.comments[i].created=moment(this.article.comments[i].created).format('YYYY-MM-DD HH:MM:SS');

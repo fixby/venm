@@ -1,73 +1,118 @@
 'use strict';
+const <%=Module%> = require("../model/model<%=Module%>");
+const Util = require("../util/util");
+exports.list = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%> => list, query: ' + JSON.stringify(req.query));
+    const conditions = req.query;
+    let curPage = Math.abs(parseInt(req.query.page || 1, 10)) || 1;
+    delete conditions.page;
+    let pageSize = Util.pageSize;
+    if (conditions.keyword) {
+        conditions.title = new RegExp(conditions.keyword.trim(), 'i');
+        conditions.content = new RegExp(conditions.keyword.trim(), 'i');
+        delete req.query.keyword;
+    }
+    if (conditions.title) {
+        conditions.title = new RegExp(conditions.keyword.trim(), 'i');
+    }
+    if (conditions.content) {
+        conditions.content = new RegExp(conditions.keyword.trim(), 'i');
+    }
 
-const <%=table %>Module = require(rootPath.concat("/module/<%=table%>Module.js"));
+    <%=Module%>.getAll(conditions)
+        // .sort('-created')
+        //.populate('链接查询的文档名')
+        .exec(function(err, <%=module%>s) {
+            if (err) {
+                res.json(Util.status(-1, "error"));
+                return;
+            }
+            // console.log(<%=module%>s);
+            let totalCount = <%=module%>s.length;
+            let pageCount = Math.ceil(totalCount / pageSize);
+            if (curPage > pageCount) curPage = pageCount;
+            let data = {};
+            data.list =  <%=module%>s.slice((curPage - 1) * pageSize, curPage * pageSize);
+            let page = {};
+            page.curPage = curPage;
+            page.pageCount = pageCount;
+            data.page = page;
+            res.json(Util.status(1, "Success", data));
+        });
+};
 
-exports.select = (req,res,next) => {
-    let conn;
-    Promise.coroutine(function* () {
-        conn = yield util.getConnect();
-        let result = yield <%=table %>Module.select(conn,req.query);
-        return res.json(util.success( {data:result} ));
-    })().catch(( err )=> {
-        console.log(new Date(),err.stack);
-        return res.json(config.message.error);
-    }).finally(()=> {
-        conn.release();
+exports.new = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%>/new => new, query: ' + JSON.stringify(req.query));
+    res.json(Util.status(1, "Success", {
+        "_action": "new"
+    }));
+};
+
+
+exports.show = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%>/:id => show, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params));
+    var id = req.params.id;
+    <%=Module%>.getById(id, function(err, <%=module%>) {
+        // console.log(<%=module%>);
+        if (err) {
+            res.json(Util.status(-1, "error"));
+            return;
+        }
+        res.json(Util.status(1, "Success", <%=module%>))
     });
-}
+};
 
-exports.get = (req,res,next) => {
-    let conn;
-    Promise.coroutine(function* () {
-        conn = yield util.getConnect();
-        let result = yield <%=table%>Module.get(conn,req.params);
-        return res.json(util.success( {data:result} ));
-    })().catch(( err )=> {
-        console.log(new Date(),err.stack);
-        return res.json(config.message.error);
-    }).finally(()=> {
-        conn.release();
-    });
-}
+exports.edit = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%>/:id/edit => edit, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params));
+    var id = req.params.id;
+    <%=Module%>.getById(id)
+        //.populate('需要链接查询的文档名称')
+        .exec(function(err, <%=module%>) {
+            if (err) {
+                res.json(Util.status(-1, err));
+                return;
+            }
+            console.log(<%=module%>);
+            <%=module%>._action = 'edit';
+            res.json(Util.status(1, "Success", <%=module%>))
+        });
+};
 
-exports.add = (req,res,next) => {
-    let conn;
-    Promise.coroutine(function* () {
-        conn = yield util.getConnect();
-        yield <%=table%>Module.add(conn,req.body);
-        return res.json(config.message.success);
-    })().catch(( err )=> {
-        console.log(new Date(),err.stack);
-        return res.json(config.message.error);
-    }).finally(()=> {
-        conn.release();
+exports.create = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%> => create, query: ' + JSON.stringify(req.query) +', params: ' + JSON.stringify(req.params) + ', body: ' + JSON.stringify(req.body));
+    <%=Module%>.create(req.body, function(err, <%=module%>) {
+        if (err) {
+            // console.log(err);
+            res.json(Util.status(-1, err.message));
+            return;
+        }
+        // console.log(<%=module%>);
+        res.json(Util.status(0, "create success!", <%=module%>));
     });
-}
+};
 
-exports.update = (req,res,next) => {
-    let conn;
-    Promise.coroutine(function* () {
-        conn = yield util.getConnect();
-        yield <%=table%>Module.update(conn,req.body,req.params);
-        return res.json(config.message.success);
-    })().catch(( err )=> {
-        console.log(new Date(),err.stack);
-        return res.json(config.message.error);
-    }).finally(()=> {
-        conn.release();
-    });
-}
 
-exports.delete = (req,res,next) => {
-    let conn;
-    Promise.coroutine(function* () {
-        conn = yield util.getConnect();
-        yield <%=table%>Module.delete(conn,req.params);
-        return res.json(config.message.success);
-    })().catch(( err )=> {
-        console.log(new Date(),err.stack);
-        return res.json(config.message.error);
-    }).finally(()=> {
-        conn.release();
+exports.update = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%>/:id => update, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params) + ', body: ' + JSON.stringify(req.body));
+    var id = req.params.id;
+    <%=Module%>.updateById(id, req.body, function(err, <%=module%>) {
+        if (err) {
+            // console.log(err);
+            res.json(Util.status(-1, err.message));
+            return;
+        }
+        // console.log(<%=module%>);
+        res.json(Util.status(0, "update success!", {
+            redirect: '/<%=module%>/' + id
+        }));
     });
-}
+};
+
+exports.destroy = function(req, res, next) {
+    // console.log(req.method + ' /<%=module%>/:id => destroy, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params) + ', body: ' + JSON.stringify(req.body));
+    var id = req.params.id;
+    <%=Module%>.deleteById(id, function(err) {
+        // console.log(err);
+        res.json(Util.status(0, "delete success!"));
+    })
+};

@@ -9,11 +9,11 @@ const header = { 'Content-type': 'application/json' };
 let id = '';
 
 
-describe('<%=Module%>测试', () => {
-      it('增加<%=Module%>测试', () => {
+describe('Test测试', () => {
+      it('增加Test测试', () => {
           // 请填写增加对象let body = {name:"fixby@qq.com",password:"admin"};
           const body = { "title": "test", "content": "testcontent" };
-          return fetch(rooturl.concat('/<%=module%>'), { method: 'post', headers: header, body: JSON.stringify(body) }).then((res) => {
+          return fetch(rooturl.concat('/test'), { method: 'post', headers: header, body: JSON.stringify(body) }).then((res) => {
               return res.json();
           }).then((json) => {
               // console.log(json);
@@ -24,8 +24,8 @@ describe('<%=Module%>测试', () => {
 
 
 
-  it('根据ID获取<%=Module%>', () => {
-      return fetch(rooturl.concat('/<%=module%>/'+id)).then((res) => {
+  it('根据ID获取Test', () => {
+      return fetch(rooturl.concat('/test/'+id)).then((res) => {
           return res.json();
       }).then((json) => {
           console.log(json);
@@ -33,10 +33,10 @@ describe('<%=Module%>测试', () => {
       });
   });
 
-  it('根据ID修改<%=Module%>', () => {
+  it('根据ID修改Test', () => {
       // 请填写修改对象let body = {name:"admin@yuanku.org",password:"admin"};
       const body = { "title": "edit_title", "content": "edit_content" };
-      return fetch(rooturl.concat('/<%=module%>/'+id), { method: 'patch', headers: header, body: JSON.stringify(body) }).then((res) => {
+      return fetch(rooturl.concat('/test/'+id), { method: 'patch', headers: header, body: JSON.stringify(body) }).then((res) => {
           return res.json();
       }).then((json) => {
           // console.log(json);
@@ -44,8 +44,8 @@ describe('<%=Module%>测试', () => {
       });
   });
 
-  it('根据ID删除<%=Module%>', () => {
-      return fetch(rooturl.concat('/<%=module%>/'+id), { method: 'delete' }).then((res) => {
+  it('根据ID删除Test', () => {
+      return fetch(rooturl.concat('/test/'+id), { method: 'delete' }).then((res) => {
           return res.json();
       }).then((json) => {
           // console.log(json);
@@ -53,8 +53,8 @@ describe('<%=Module%>测试', () => {
       });
   });
 
-  it('查询<%=Module%>', () => {
-      return fetch(rooturl.concat('/<%=module%>')).then((res) => {
+  it('查询Test', () => {
+      return fetch(rooturl.concat('/test')).then((res) => {
           return res.json();
       }).then((json) => {
           // console.log(json);

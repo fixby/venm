@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 183);
+/******/ 	return __webpack_require__(__webpack_require__.s = 184);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -27742,6 +27742,8 @@ webpackContext.id = 147;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdminNav_vue__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdminNav_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__AdminNav_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_test_sass__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_test_sass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_test_sass__);
 Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
@@ -27777,6 +27779,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -28655,7 +28658,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
         //显示文章
         getArticle(id) {
             this.$http.get('/article/' + id).then(function (res) {
-                this.article = eval('(' + res.body + ')');
+                this.article = res.body.data;
                 this.article.created = __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.article.created).format('YYYY-MM-DD HH:MM:SS');
                 for (let i = 0; i < this.article.comments.length; i++) {
                     this.article.comments[i].created = __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.article.comments[i].created).format('YYYY-MM-DD HH:MM:SS');
@@ -28761,14 +28764,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
         //获取所有文章
         getArticleList(page) {
             this.$http.get('/article?page=' + page).then(function (res) {
-                //console.log('result:'+JSON.stringify(res.body.result));
-
+                console.log('result:', res.body);
 
                 this.pages = [];
 
-                this.articles = res.body.result;
-                this.pageCount = res.body.pageCount;
-                this.curPage = res.body.curPage;
+                this.articles = res.body.data.list;
+                this.pageCount = res.body.data.page.pageCount;
+                this.curPage = res.body.data.page.curPage;
 
                 //the time&conent has formated
                 for (let i = 0; i < this.articles.length; i++) {
@@ -29947,6 +29949,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    staticClass: "test",
     staticStyle: {
       "padding-top": "40px"
     }
@@ -30009,7 +30012,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:;"
     }
-  }, [_vm._v("_(•̀ω•́ 」∠)_")])])
+  })])
 }]}
 
 /***/ },
@@ -30306,6 +30309,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ },
 /* 183 */
+/***/ function(module, exports) {
+
+throw new Error("Module build failed: \n#main {\n      ^\n      Invalid CSS after \"#main {\": expected \"}\", was \"{\"\n      in /Volumes/Fixby/git/venm/src/css/test.sass (line 1, column 8)");
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";

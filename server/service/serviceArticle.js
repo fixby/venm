@@ -20,9 +20,9 @@ exports.list = function(req, res, next) {
     }
 
     Article.getAll(conditions)
-        // .sort('-created')
-        .populate('author')
+        .sort('-created')
         .populate('category')
+        .populate('author')
         .exec(function(err, articles) {
             if (err) {
                 res.json(Util.status(-1, "error"));
@@ -32,8 +32,13 @@ exports.list = function(req, res, next) {
             let totalCount = articles.length;
             let pageCount = Math.ceil(totalCount / pageSize);
             if (curPage > pageCount) curPage = pageCount;
-            articles = articles.slice((curPage - 1) * pageSize, curPage * pageSize);
-            res.json(Util.status(1, "Success", articles));
+            let data = {};
+            data.list = articles.slice((curPage - 1) * pageSize, curPage * pageSize);
+            let page = {};
+            page.curPage = curPage;
+            page.pageCount = pageCount;
+            data.page = page;
+            res.json(Util.status(1, "Success", data));
         });
 };
 
@@ -62,8 +67,7 @@ exports.edit = function(req, res, next) {
     // console.log(req.method + ' /article/:id/edit => edit, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params));
     var id = req.params.id;
     Article.getById(id)
-        .populate('author')
-        .populate('category')
+        //.populate('需要链接查询的文档名称')
         .exec(function(err, article) {
             if (err) {
                 res.json(Util.status(-1, err));
@@ -78,6 +82,11 @@ exports.edit = function(req, res, next) {
 exports.create = function(req, res, next) {
     // console.log(req.method + ' /article => create, query: ' + JSON.stringify(req.query) +', params: ' + JSON.stringify(req.params) + ', body: ' + JSON.stringify(req.body));
     Article.create(req.body, function(err, article) {
+        if (err) {
+            // console.log(err);
+            res.json(Util.status(-1, err.message));
+            return;
+        }
         // console.log(article);
         res.json(Util.status(0, "create success!", article));
     });
@@ -88,6 +97,11 @@ exports.update = function(req, res, next) {
     // console.log(req.method + ' /article/:id => update, query: ' + JSON.stringify(req.query) + ', params: ' + JSON.stringify(req.params) + ', body: ' + JSON.stringify(req.body));
     var id = req.params.id;
     Article.updateById(id, req.body, function(err, article) {
+        if (err) {
+            // console.log(err);
+            res.json(Util.status(-1, err.message));
+            return;
+        }
         // console.log(article);
         res.json(Util.status(0, "update success!", {
             redirect: '/article/' + id

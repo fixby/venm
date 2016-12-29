@@ -1,12 +1,32 @@
-'use strict';
+var express = require('express');
+var router = express.Router();
+var $ = require('../service/service<%=Module%>');
+// -- custom
+/**
+ * Auto generate RESTful url routes.
+ *
+ * URL routes:
+ *
+ *  GET    /<%=module%>[/]        => $.list()
+ *  GET    /<%=module%>/new       => $.new()
+ *  GET    /<%=module%>/:id       => $.show()
+ *  GET    /<%=module%>/edit/:id  => $.edit()
+ *  POST   /<%=module%>[/]        => $.create()
+ *  PATCH  /<%=module%>/:id       => $.update()
+ *  DELETE /<%=module%>/:id       => $.destroy()
+ *
+ */
 
-const <%=table%>Service = require(rootPath.concat("/service/<%=table%>Service.js"));
-const <%=table%>Router = express.Router();
 
-<%=table%>Router.get("/",<%=table%>Service.select);
-<%=table%>Router.get("/:id",<%=table%>Service.get);
-<%=table%>Router.post("/",<%=table%>Service.add);
-<%=table%>Router.put("/:id",<%=table%>Service.update);
-<%=table%>Router.delete("/:id",<%=table%>Service.delete);
+router.get('/new', $.new);
+router.get('/edit/:id', $.edit);
 
-module.exports = <%=table%>Router;
+router.route('/')
+    .get($.list)
+    .post($.create);
+
+router.route('/:id')
+    .patch($.update)
+    .get($.show)
+    .delete($.destroy);
+module.exports = router;

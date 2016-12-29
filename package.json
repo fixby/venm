@@ -1,6 +1,7 @@
 {
     "name": "venm",
     "description": "Basic project, vue2.0,nodejs,Express,Mongodb",
+    "version": "1.0.1",
     "author": "Fixby",
     "private": true,
     "scripts": {
@@ -13,6 +14,8 @@
         "eslint": "eslint . --fix"
     },
     "dependencies": {
+        "bluebird": "^3.4.6",
+        "bootstrap": "^3.3.7",
         "connect-flash": "^0.1.1",
         "connect-mongo": "^1.3.2",
         "cookie-parser": "^1.4.3",
@@ -29,17 +32,17 @@
         "mongoosedao": "^1.0.13",
         "mount-routes": "^1.0.6",
         "node-fetch": "^1.6.3",
+        "node-sass": "^4.1.1",
         "passport": "^0.3.2",
         "passport-local": "^1.0.0",
         "pinyin": "^2.8.0",
+        "sass-loader": "^4.1.1",
         "serve-favicon": "^2.3.0",
         "truncate": "^2.0.0",
         "vue": "^2.0.1",
         "vue-resource": "^1.0.3",
         "vue-router": "^2.0.1",
-        "vuex": "^2.0.0",
-        "bluebird": "^3.4.6",
-        "bootstrap": "^3.3.7"
+        "vuex": "^2.0.0"
     },
     "devDependencies": {
         "babel-core": "^6.18.2",
@@ -53,6 +56,7 @@
         "copy-webpack-plugin": "^4.0.0",
         "cross-env": "^3.0.0",
         "css-loader": "^0.25.0",
+        "ejs": "^2.5.5",
         "extract-text-webpack-plugin": "^2.0.0-beta.4",
         "file-loader": "^0.9.0",
         "json-loader": "^0.5.4",

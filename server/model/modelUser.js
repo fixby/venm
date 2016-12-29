@@ -3,7 +3,6 @@ mongoose.Promise = require('bluebird');
 const Schema = mongoose.Schema;
 const md5 = require("md5");
 const MongooseDao = require('../base/dao');
-
 const ModelUser = new Schema({
     name: { type: String, require: true },
     email: { type: String, require: true },
@@ -16,6 +15,5 @@ ModelUser.methods.verifyPassword = function(password) {
     //console.log('UserSchema.methods.verifyPassword: ', password, this.password, isMatch);
     return isMatch;
 };
-
 const User = new MongooseDao(mongoose.model('User', ModelUser));
 module.exports = User;

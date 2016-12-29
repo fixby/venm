@@ -24,8 +24,7 @@ const User = require("./model/modelUser");
 //const flash=require('connect-flash');
 //const messages=require('express-messages');
 
-const mount = require('mount-routes');
-mount(app, "./../../server/router", true);
+
 /*
  * 监听3300端口
  * 用JSON格式处理bodyParser请求
@@ -33,6 +32,11 @@ mount(app, "./../../server/router", true);
 app.set('port', (process.env.port || 3300));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//路由需要在bodyParser之后加载
+const mount = require('mount-routes');
+mount(app, "./../../server/router", true);
+
 //app.set('view engine', 'ejs');
 app.use(cookieParser());
 
@@ -102,7 +106,6 @@ app.use('/dist', express.static(resolve('../dist')));
 app.get('*', function(req, res, next) {
     if (req.originalUrl.indexOf('/article') != 0 || req.originalUrl.indexOf('/category') != 0 || req.originalUrl.indexOf('/favorite') != 0) {
         const html = fs.readFileSync(resolve('../index.html'), 'utf-8');
-        console.log(html);
         res.send(html);
     } else {
         next();

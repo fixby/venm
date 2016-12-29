@@ -44,14 +44,13 @@ export default{
         //获取所有文章
         getArticleList(page){
             this.$http.get('/article?page='+ page).then(function(res){
-                //console.log('result:'+JSON.stringify(res.body.result));
-
+                console.log('result:',res.body);
 
                 this.pages=[];
 
-                this.articles = res.body.result;
-                this.pageCount = res.body.pageCount;
-                this.curPage = res.body.curPage;
+                this.articles = res.body.data.list;
+                this.pageCount = res.body.data.page.pageCount;
+                this.curPage = res.body.data.page.curPage;
 
                 //the time&conent has formated
                 for(let i=0; i<this.articles.length; i++){

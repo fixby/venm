@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top:40px">
+    <div style="padding-top:40px" class="test">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -14,7 +14,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li @click="logout"><a href="#">{{user ? user.email : 0}} &nbsp; 注销</a></li>
-                        <li><a href="javascript:;">_(•̀ω•́ 」∠)_</a></li>
+                        <li><a href="javascript:;"></a></li>
                     </ul>
                 </div>
             </div>
@@ -34,6 +34,7 @@
 </template>
 <script>
 import adminNav from './AdminNav.vue'
+// import '../css/test.sass';
 
 export default{
     data(){
