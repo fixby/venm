@@ -57,7 +57,7 @@
 * install mongodb , run mongodb
 
 
-* 安装 vnem-cli
+* Install vnem-cli
 ``
 sudo npm install -g vnem-cli
 ``
